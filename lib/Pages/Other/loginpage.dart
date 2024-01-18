@@ -180,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login Page'),
+        title: const Text(''),
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -194,8 +195,24 @@ class _LoginPageState extends State<LoginPage> {
           child: Center(
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Image.asset(
+                    'assets/icons/pngwing.com.png', // Replace with the actual image path
+                    width: 90,
+                    height: 90,
+                  ),
+                  const SizedBox(height: 14.0),
+                  const Text(
+                    'MediConnect',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF00A651),
+                    ),
+                  ),
+                  const SizedBox(height: 14.0),
+                  const SizedBox(height: 26.0),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     decoration: BoxDecoration(
@@ -226,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
                     onPressed: () async {
                       await signIn();
