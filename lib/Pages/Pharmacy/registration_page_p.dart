@@ -72,14 +72,14 @@ class _RegistrationPageState extends State<RegistrationPageP> {
                   TextFormField(
                     controller: firstNameController,
                     decoration: const InputDecoration(
-                      labelText: 'First Name',
+                      labelText: 'Pharmacy Name',
                     ),
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
                     controller: lastNameController,
                     decoration: const InputDecoration(
-                      labelText: 'Last Name',
+                      labelText: 'Address',
                     ),
                   ),
                   const SizedBox(height: 16.0),

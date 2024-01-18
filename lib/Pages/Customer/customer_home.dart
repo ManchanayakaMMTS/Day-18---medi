@@ -82,8 +82,18 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: Text('Customer Home Page'),
+        backgroundColor: const Color(0xFF00A651),
+        title: const Text(
+          'MediConnect',
+          style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -97,19 +107,16 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 12.0),
             Text(
-              'Welcome to Customer Home Page!',
-              style: TextStyle(fontSize: 18.0),
+              'Welcome !',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
             ),
             Text(
-              'Customer Name: ${userFirstName ?? ''} ${userLastName ?? ''}',
-              style: TextStyle(fontSize: 16.0),
+              '${userFirstName ?? ''} ${userLastName ?? ''}',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700),
             ),
-            Text(
-              'User Type: ${userType ?? ''}',
-              style: TextStyle(fontSize: 16.0),
-            ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 6.0),
             Expanded(
               child: MedicineRequestList(userEmail: userEmail),
             ),
@@ -120,6 +127,13 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                 onPressed: () {
                   showAddMedicineRequestDialog();
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF00A651),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
                 child: Text('Add New Request'),
               ),
             ),
@@ -134,7 +148,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Add New Medicine Request'),
+          title: Text('Add New Request'),
           content: TextField(
             controller: medicineController,
             decoration: InputDecoration(
@@ -170,48 +184,38 @@ class MedicineRequestList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('MedicineRequests')
-          .where('customerEmail', isEqualTo: userEmail)
-          .orderBy('timestamp', descending: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        }
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('MedicineRequests')
+            .where('customerEmail', isEqualTo: userEmail)
+            .orderBy('timestamp', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
 
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Text('No medicine requests found.');
-        }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Text('No medicine requests found.');
+          }
 
-        var requests = snapshot.data!.docs;
+          var requests = snapshot.data!.docs;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Medicine Requests:',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8.0),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: requests.length,
-                itemBuilder: (context, index) {
-                  var request = requests[index].data() as Map<String, dynamic>;
-                  return MedicineRequestTile(request: request);
-                },
-              ),
-            ),
-          ],
-        );
-      },
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: requests.length,
+            itemBuilder: (context, index) {
+              var request = requests[index].data() as Map<String, dynamic>;
+              return MedicineRequestTile(request: request);
+            },
+          );
+        },
+      ),
     );
   }
 }
@@ -231,15 +235,30 @@ class MedicineRequestTile extends StatelessWidget {
 
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
+      color: Color.fromARGB(255, 255, 255, 255),
       child: ListTile(
-        title: Text('Medicine: $medicine'),
+        title: Text(
+          'Medicine: $medicine',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         subtitle: Text(formattedTime),
         trailing: ElevatedButton(
           onPressed: () {
             showRespondedPharmaciesDialog(
                 context, medicine, request['customerEmail']);
           },
-          child: Text('View Responded Pharmacies'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF00A651),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+          child: Text('View'),
         ),
       ),
     );
@@ -254,12 +273,12 @@ class MedicineRequestTile extends StatelessWidget {
           .where('medicine', isEqualTo: medicine)
           .get();
 
-      List<String> respondedPharmacies = [];
+      List<Map<String, dynamic>> respondedPharmacies = [];
 
       for (var doc in response.docs) {
         var data = doc.data() as Map<String, dynamic>;
         if (data['hasMedicine'] == true) {
-          respondedPharmacies.add(data['pharmacyName'] as String);
+          respondedPharmacies.add(data);
         }
       }
 
@@ -273,8 +292,8 @@ class MedicineRequestTile extends StatelessWidget {
               children: [
                 Text('Pharmacies that have $medicine:'),
                 SizedBox(height: 8.0),
-                for (String pharmacyName in respondedPharmacies)
-                  Text('- $pharmacyName'),
+                for (var pharmacy in respondedPharmacies)
+                  PharmacyTile(pharmacy: pharmacy),
               ],
             ),
             actions: [
@@ -297,6 +316,49 @@ class MedicineRequestTile extends StatelessWidget {
     runApp(
       MaterialApp(
         home: CustomerHomePage(),
+      ),
+    );
+  }
+}
+
+class PharmacyTile extends StatelessWidget {
+  final Map<String, dynamic> pharmacy;
+
+  PharmacyTile({required this.pharmacy});
+
+  @override
+  Widget build(BuildContext context) {
+    String pharmacyName = pharmacy['pharmacyName'] ?? '';
+    String pharmacyLocation = pharmacy['location'] ?? '';
+    String pharmacyChatId = pharmacy['chatId'] ?? '';
+
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      child: ListTile(
+        title: Text('Pharmacy: $pharmacyName'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Location: $pharmacyLocation'),
+            SizedBox(height: 8.0),
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.chat),
+                  onPressed: () {
+                    // Implement chat functionality
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement location functionality
+                  },
+                  child: Text('Location'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

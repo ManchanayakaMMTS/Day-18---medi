@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +58,16 @@ class _PharmacyHomePageState extends State<PharmacyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pharmacy Home Page'),
+        backgroundColor: const Color(0xFF00A651),
+        title: const Text(
+          'MediConnect',
+          style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -70,11 +81,16 @@ class _PharmacyHomePageState extends State<PharmacyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 10.0),
             Text(
-              'Welcome to Pharmacy Home Page, $pharmacyName!',
+              'Welcome !',
               style: TextStyle(fontSize: 18.0),
             ),
-            SizedBox(height: 16.0),
+            Text(
+              '$pharmacyName',
+              style: TextStyle(fontSize: 18.0),
+            ),
+            SizedBox(height: 1.0),
             MedicineRequestList(pharmacyName: pharmacyName),
           ],
         ),
@@ -160,7 +176,14 @@ class MedicineRequestTile extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
-        title: Text('Medicine: $medicine'),
+        title: Text(
+          'Medicine: $medicine',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -176,6 +199,13 @@ class MedicineRequestTile extends StatelessWidget {
               onPressed: () {
                 showPharmacyResponseDialog(context, customerEmail, medicine);
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF00A651),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
               child: Text('Respond'),
             ),
           ],
@@ -205,7 +235,7 @@ class MedicineRequestTile extends StatelessWidget {
                 updatePharmacyResponse(customerEmail, medicine, true);
                 Navigator.pop(context);
               },
-              child: Text('We Have'),
+              child: Text('Available'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -213,7 +243,7 @@ class MedicineRequestTile extends StatelessWidget {
                 updatePharmacyResponse(customerEmail, medicine, false);
                 Navigator.pop(context);
               },
-              child: Text("Don't Have"),
+              child: Text("Unavailable"),
             ),
           ],
         );
