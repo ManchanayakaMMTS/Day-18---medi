@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "726202907790",
+    "project_id": "mediconnect2-6fb51",
+    "storage_bucket": "mediconnect2-6fb51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726202907790:android:059fc091fcabf5f5369ddf",
+        "android_client_info": {
+          "package_name": "com.example.mediconnect2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCacIoJK0_6Nwn3OCCf4mH7Nd_5SgYaTF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
