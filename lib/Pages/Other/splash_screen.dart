@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const SelectionPage()));
     });
@@ -32,12 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      backgroundColor: Color(0xFF008000),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(22.0),
@@ -45,26 +40,27 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/icons/pngwing.com.png',
-                width: 65,
-                height: 65,
+                'assets/icons/pngwingwhite.com.png',
+                width: 115,
+                height: 115,
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 25.0),
               const Text(
                 'MediConnect',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 30,
                   fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 4.0),
+              const SizedBox(height: 8.0),
               const Text(
                 'Find your medicine',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 12,
-                  color: Colors.grey,
+                  color: Colors.white,
                 ),
               ),
             ],

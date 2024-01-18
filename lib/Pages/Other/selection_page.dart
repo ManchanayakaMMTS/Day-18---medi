@@ -27,20 +27,16 @@ class SelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('MediConnect'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               'assets/icons/pngwing.com.png',
-              width: 65,
-              height: 65,
+              width: 85,
+              height: 85,
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 10.0),
             const Text(
               'MediConnect',
               style: TextStyle(
@@ -49,15 +45,17 @@ class SelectionPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 navigateToLoginPage(UserType.Customer, context);
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Colors.lightGreen.shade100),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF00A651),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
               child: const Text('Login as Customer'),
             ),
@@ -66,10 +64,12 @@ class SelectionPage extends StatelessWidget {
               onPressed: () {
                 navigateToLoginPage(UserType.Pharmacy, context);
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Colors.lightGreen.shade100),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF00A651),
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
               child: const Text('Login as Pharmacy'),
             ),
