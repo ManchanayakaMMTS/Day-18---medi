@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:mediconnect2/screens/chat_screen.dart';
 
 class CustomerHomePage extends StatefulWidget {
   const CustomerHomePage({Key? key}) : super(key: key);
@@ -229,6 +230,7 @@ class MedicineRequestTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String medicine = request['medicine'] ?? '';
     Timestamp timestamp = request['timestamp'] ?? Timestamp(0, 0);
+    String customeremail = request['customerEmail'] ?? '';
 
     DateTime dateTime = timestamp.toDate();
     String formattedTime = DateFormat.yMMMEd().add_jms().format(dateTime);
@@ -346,6 +348,20 @@ class PharmacyTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.chat),
                   onPressed: () {
+                    String customerEmail = pharmacy['customerEmail'] ??
+                        ''; // Provide a default value if null
+                    String customerId = pharmacy['customerId'] ??
+                        ''; // Provide a default value if null
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                          reciverUserEmail: customerEmail,
+                          reciverUserId: customerId,
+                        ),
+                      ),
+                    );
                     // Implement chat functionality
                   },
                 ),
