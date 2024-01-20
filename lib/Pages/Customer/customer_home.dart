@@ -97,7 +97,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.chat),
             onPressed: () {
               // Implement logout functionality
             },
